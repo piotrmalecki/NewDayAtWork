@@ -155,8 +155,10 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AuthenticationController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ShoppingController.cs" />
     <Compile Include="Controllers\StocksController.cs" />
     <Compile Include="Helpers\BalanceHelper.cs" />
+    <Compile Include="Models\CustomerOrder.cs" />
     <Compile Include="Models\Item.cs" />
     <Compile Include="Models\Stock.cs" />
     <Compile Include="Services\AuthenticationService.cs" />
@@ -216,6 +218,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Authentication\LogIn.cshtml" />
     <Content Include="Views\Stocks\Index.cshtml" />
+    <Content Include="Views\Shopping\ModalContent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

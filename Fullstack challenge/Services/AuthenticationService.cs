@@ -26,7 +26,16 @@ namespace Fullstack.Challenge.Services
 
 		public int GetCurrentUserId()
 		{
-			return Convert.ToInt32(HttpContext.Current.User.Identity.Name);
+			try
+			{
+				return Convert.ToInt32(HttpContext.Current.User.Identity.Name);
+			}
+			catch (Exception ex)
+			{
+
+				Console.WriteLine(ex);
+				return 1;
+			}
 		}
 
 		public void DeAuthenticate()

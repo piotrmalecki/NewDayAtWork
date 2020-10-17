@@ -1,12 +1,18 @@
-﻿namespace Fullstack.Challenge.Models
+﻿using System;
+
+namespace Fullstack.Challenge.Models
 {
 	public class Item
 	{
-		public int Id { get; set; }
+		public Guid Id { get; set; }
 
 		public string Name { get; set; }
 
+		public string ImagePath { get; set; }
+
 		public int Quantity { get; set; }
+
+		public int SelectedQuantity { get; set; } = 0;
 
 		public int Price { get; set; }
 	}

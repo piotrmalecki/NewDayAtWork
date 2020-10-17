@@ -1,6 +1,7 @@
 ﻿body {
 	padding-top: 50px;
 	padding-bottom: 20px;
+
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -22,3 +23,72 @@ select,
 textarea {
 	max-width: 280px;
 }
+
+.modal-title{ 
+	font-size:24px;
+}
+.modal-dialog {
+	font-size:18px;
+	padding-left:40px;
+	padding-right: 40px;
+}
+
+.modal-dialog .form-group {
+	display: -webkit-box;
+}
+
+table {
+	border-collapse: separate;
+	border-spacing: 20px 20px;
+}
+.items-table tr {
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
+
+.input-controls {
+	display: flex;
+	margin-top: inherit;
+}
+
+	.input-controls .minus-button, .plus-button {
+		width: 30px;
+		height: 30px;
+		margin-left: 10px;
+		margin-right: 10px;
+		border: 0;
+	}
+	.input-controls .input-amount {
+		width: 40px;
+		height: 30px;
+		border: 0px;
+		text-align: end;
+	}
+	.input-controls .plus-button {
+		background: url('icons/plus.png') no-repeat;
+		background-position: center;
+	}
+	.input-controls .minus-button {
+		background: url('icons/minus.png') no-repeat;
+		background-position: center;
+	}
+
+
+@media screen and (min-width: 480px) {
+	.modal-dialog {
+		width: 900px;
+	}
+}
+
+@media screen and (max-width: 480px) {
+	.modal-dialog {
+		width: 400px;
+	}
+	.small-image{
+		display: none;
+	}
+	table {
+		border-collapse: separate;
+		border-spacing: 0px 20px;
+	}}
+

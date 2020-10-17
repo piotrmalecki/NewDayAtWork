@@ -23,7 +23,7 @@ namespace Fullstack.Challenge.Controllers
 
 		public ActionResult Data()
 		{
-			List<Stock> stocks = _stocksService.GetStocks();
+			IList<Stock> stocks = _stocksService.GetStocks();
 
 			return Json(stocks, JsonRequestBehavior.AllowGet);
 		}

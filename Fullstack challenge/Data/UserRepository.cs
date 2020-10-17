@@ -19,6 +19,12 @@ namespace Fullstack.Challenge.Data
 			return user;
 		}
 
+		public void UpdateUserBlance(int userId, int newBalance)
+		{
+			User user = _users.First(u => u.Id == userId);
+			user.Balance = user.Balance - newBalance;
+		}
+
 		static UserRepository()
 		{
 			_users = new List<User>

@@ -24,6 +24,12 @@ namespace Fullstack.Challenge.Services
 			return user.Balance;
 		}
 
+		public void UpdateBalance(int newBalance)
+		{
+			int userId = _authenticationService.GetCurrentUserId();
+			_userRepository.UpdateUserBlance(userId, newBalance);
+		}
+
 		public string GetUserName()
 		{
 			int userId = _authenticationService.GetCurrentUserId();

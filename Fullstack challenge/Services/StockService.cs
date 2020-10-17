@@ -15,7 +15,7 @@ namespace Fullstack.Challenge.Services
 			_itemRepository = itemRepository ?? throw new ArgumentNullException(nameof(itemRepository));
 		}
 
-		public List<Stock> GetStocks()
+		public IList<Stock> GetStocks()
 		{
 			return _itemRepository.GetAlItems()
 				.Select(it => new Stock
@@ -24,5 +24,16 @@ namespace Fullstack.Challenge.Services
 					Quantity = it.Quantity
 				}).ToList();
 		}
+
+		public IList<Item> GetItems()
+		{
+			return _itemRepository.GetAlItems();
+		}
+
+		public int UpdateItemQuantity(Guid itemId, int orderQuantity)
+		{
+			return _itemRepository.UpdateItem(itemId, orderQuantity);
+		}
+
 	}
 }

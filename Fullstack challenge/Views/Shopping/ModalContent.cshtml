@@ -1,0 +1,133 @@
+﻿@using System.Web.Mvc;
+@using Fullstack.Challenge.Helpers
+@using Fullstack.Challenge.Services;
+@using Fullstack.Challenge.Models;
+
+@{
+	StocksService currentUserService = DependencyResolver.Current.GetService<StocksService>();
+	IList<Item> Items = currentUserService.GetItems();
+}
+<div class="modal-header">
+	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	<h4 class="modal-title">Order</h4>
+</div>
+<div class="modal-body">
+	<table class="items-table">
+		@foreach (var item in Items)
+		{
+			<tr>
+				<td class="small-image">
+					<img src="@item.ImagePath" alt="@item.Name" width="60px" />
+				</td>
+				<td class="name"> @item.Name </td>
+				<td class="input-controls">
+					<input class="minus-button" type="button" onclick="decrement('@item.Id');" />
+					<input id="@item.Id" class="input-amount" min="0" max="@item.Quantity" type="number" onInput="updateInput('@item.Id')" />
+					<input class="plus-button" type="button" onclick="increment('@item.Id')" />
+				</td>
+				<td class="price">
+					@item.Price gold
+				</td>
+			</tr>
+		}
+	<tr style="margin-top:40px">
+		<td>
+			<b>Total</b>
+		</td>
+		<td class="small-image"></td>
+		<td></td>
+		<td class="total-sum">
+			<b>0 gold</b>
+		</td>
+	</tr>
+	</table>
+</div>
+<div class="modal-footer">
+
+	<button id = "buyButton" type = "button" class="btn btn-primary btn-lg" )>Buy</button>
+
+	<button type="button" class="btn btn-default btn-lg" data-dismiss="modal">Close</button>
+</div>
+
+<script type="text/javascript">
+	var itemsSelected = [];
+	function increment(id)
+	{
+		var input_element = document.getElementById(id);
+		var v = input_element.value;
+		var value = v == "" ? 0 : parseInt(v);
+		if (value < parseInt(input_element.max)) { value++; }
+		input_element.value = value;
+		updateTotal();
+	}
+
+	function decrement(id)
+	{
+		var input_element = document.getElementById(id);
+		var v = input_element.value;
+		var value = v == "" ? 0 : parseInt(v);
+		if (value > 0) { value--; }
+		input_element.value = value;
+		updateTotal();
+	}
+
+	function updateInput(id) {
+		var input_element = document.getElementById(id);
+		var v = input_element.value;
+		var value = v == "" ? 0 : parseInt(v);
+		if (value > parseInt(input_element.max)) { input_element.value = parseInt(input_element.max); }
+		if (value < 0) { input_element.value = 0; }
+		updateTotal();
+	}
+
+	function updateTotal() {
+		var sum = 0;
+		itemsSelected = [];
+		for (var i = 0; i < $(".items-table tr").length; i++) {
+			var row = $(".items-table tr")[i];
+			var quantity = 0;
+			var price = 0;
+			if (row.getElementsByClassName("input-amount")[0] && parseInt(row.getElementsByClassName("input-amount")[0].value)) { quantity = parseInt(row.getElementsByClassName("input-amount")[0].value) }
+			if (row.getElementsByClassName("price")[0] && parseInt(row.getElementsByClassName("price")[0].innerText)) { price = parseInt(row.getElementsByClassName("price")[0].innerText)}
+			sum += quantity * price;
+		}
+		document.getElementById('buyButton').disabled = sum > @Html.Balance() ? true : false ;
+		$(".total-sum b")[0].innerText = sum + " gold";
+	}
+
+	$(document).ready(function () {
+		$("#buyButton").click(function () {
+			var itemsSelected = [];
+			for (var i = 0; i < $(".items-table tr .input-amount").length; i++) {
+				var quantity = parseInt($(".items-table tr .input-amount")[i].value);
+				if (quantity > 0 ) {
+					itemsSelected.push({
+						quantity: quantity,
+						id: $(".items-table tr .input-amount")[i].id
+					});
+				}
+			}
+			// itemsSelected = JSON.stringify({ 'items': itemsSelected });
+
+			$.ajax({
+				contenttype: 'application/json charset=utf-8',
+				type: "POST",
+				url: 'Shopping/PostOrder',
+				datatype: "json",
+				data: {
+					Items: JSON.stringify(itemsSelected),
+					TotalSum: parseInt($(".total-sum b")[0].innerText),
+
+				},
+				success: function (data) {
+					$("#showmodal").modal('hide');
+					window.location.reload();
+				},
+				error: function (error) {
+					console.log(error.statusText);
+					alert(error.statusText);
+				}
+			});
+		});
+	});
+</script> 
